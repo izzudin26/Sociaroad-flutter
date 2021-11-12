@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:society_road/createReport.dart';
 import 'dart:async';
 import 'package:society_road/widget/snackbarAlert.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class MapWidget extends StatefulWidget {
   MapWidget({Key? key}) : super(key: key);
@@ -79,16 +81,34 @@ class _MapWidgetState extends State<MapWidget> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.extended(
+                heroTag: "insertBtn",
                   // backgroundColor: Color(0XFF0D325E),
                   backgroundColor: Colors.red,
                   // child: Icon(Icons.refresh),
                   label: Text('Buat Laporan'),
-                  onPressed: () {}),
+                  onPressed: () async {
+                    Position currentlocation =
+                        await _determinePosition(context);
+                    List<Placemark> placemarks = await placemarkFromCoordinates(
+                        currentlocation.latitude, currentlocation.longitude);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateReport(
+                                  lang: currentlocation.longitude.toString(),
+                                  lat: currentlocation.latitude.toString(),
+                                  address:
+                                      '${placemarks[0].street} - ${placemarks[0].locality}',
+                                  city: placemarks[0].subAdministrativeArea!,
+                                  province: placemarks[0].administrativeArea!,
+                                )));
+                  }),
             ),
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
+              heroTag: "getCurrentLocationBtn",
                 backgroundColor: Colors.blue,
                 child: Icon(Icons.location_on),
                 onPressed: () {
