@@ -91,6 +91,7 @@ class _MapWidgetState extends State<MapWidget> {
                         await _determinePosition(context);
                     List<Placemark> placemarks = await placemarkFromCoordinates(
                         currentlocation.latitude, currentlocation.longitude);
+                        print(placemarks);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -98,7 +99,7 @@ class _MapWidgetState extends State<MapWidget> {
                                   lang: currentlocation.longitude.toString(),
                                   lat: currentlocation.latitude.toString(),
                                   address:
-                                      '${placemarks[0].street} - ${placemarks[0].locality}',
+                                      '${placemarks[0].street} - ${placemarks[0].subLocality} - ${placemarks[0].locality}',
                                   city: placemarks[0].subAdministrativeArea!,
                                   province: placemarks[0].administrativeArea!,
                                 )));
