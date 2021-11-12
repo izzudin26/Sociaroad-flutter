@@ -14,6 +14,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool isShowForm = false;
+  bool isShowPassword = false;
 
   @override
   void initState() {
@@ -65,7 +66,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         ),
                         TextField(
                           controller: password,
+                          obscureText: !isShowPassword ? true :  false,
                           decoration: InputDecoration(
+                            suffixIcon: IconButton(onPressed: (){
+                              setState(() {
+                                isShowPassword = !isShowPassword;
+                              });
+                            }, icon: Icon(Icons.remove_red_eye, color: isShowPassword ? Colors.blue : Colors.black26,)),
                               labelText: "Password",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
