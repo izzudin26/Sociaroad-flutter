@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:society_road/map.dart';
 import 'package:society_road/registration.dart';
 
 class Login extends StatefulWidget {
@@ -66,13 +67,20 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         ),
                         TextField(
                           controller: password,
-                          obscureText: !isShowPassword ? true :  false,
+                          obscureText: !isShowPassword ? true : false,
                           decoration: InputDecoration(
-                            suffixIcon: IconButton(onPressed: (){
-                              setState(() {
-                                isShowPassword = !isShowPassword;
-                              });
-                            }, icon: Icon(Icons.remove_red_eye, color: isShowPassword ? Colors.blue : Colors.black26,)),
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isShowPassword = !isShowPassword;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: isShowPassword
+                                        ? Colors.blue
+                                        : Colors.black26,
+                                  )),
                               labelText: "Password",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
@@ -93,13 +101,19 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Registration()));
+                                          builder: (context) =>
+                                              Registration()));
                                 },
                                 child: Text("Daftar"))
                           ],
                         ),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MapWidget()));
+                            },
                             child: SizedBox(
                               width: double.infinity,
                               child: Center(child: Text("Login")),
