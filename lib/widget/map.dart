@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:society_road/createReport.dart';
+import 'package:society_road/widget/createReport.dart';
 import 'dart:async';
 import 'package:society_road/widget/snackbarAlert.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,8 +16,9 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   Completer<GoogleMapController> _controller = Completer();
 
+// -7.140667232280621, 112.32340920475997
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(-7.121968, 112.4152449),
     zoom: 14.4746,
   );
 
@@ -82,16 +83,14 @@ class _MapWidgetState extends State<MapWidget> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.extended(
                 heroTag: "insertBtn",
-                  // backgroundColor: Color(0XFF0D325E),
                   backgroundColor: Colors.red,
-                  // child: Icon(Icons.refresh),
                   label: Text('Buat Laporan'),
                   onPressed: () async {
                     Position currentlocation =
                         await _determinePosition(context);
                     List<Placemark> placemarks = await placemarkFromCoordinates(
                         currentlocation.latitude, currentlocation.longitude);
-                        print(placemarks);
+                        print(currentlocation);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
