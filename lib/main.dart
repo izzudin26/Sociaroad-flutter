@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:society_road/login.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
