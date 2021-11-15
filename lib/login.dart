@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:society_road/map.dart';
+import 'package:society_road/navigation.dart';
 import 'package:society_road/registration.dart';
 
 class Login extends StatefulWidget {
@@ -112,7 +112,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MapWidget()));
+                                      builder: (context) => NavigationApp()));
                             },
                             child: SizedBox(
                               width: double.infinity,
