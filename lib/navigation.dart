@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:society_road/widget/feed.dart';
 import 'package:society_road/widget/map.dart';
 import 'package:society_road/widget/report.dart';
+import 'package:society_road/widget/userDetail.dart';
 
 
 class NavigationApp extends StatefulWidget {
@@ -15,8 +16,8 @@ class _NavigationAppState extends State<NavigationApp> {
   List<Widget> widgets = [
     MapWidget(),
     FeedWidget(),
-    ReportWidget()
-    
+    ReportWidget(),
+    UserDetail()
   ];
   int currentWidget = 0;
 
@@ -31,10 +32,12 @@ class _NavigationAppState extends State<NavigationApp> {
     return Scaffold(
       body: widgets[currentWidget],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.add_road), label: "Feed"),
-          BottomNavigationBarItem(icon: Icon(Icons.report), label: "Laporan")
+          BottomNavigationBarItem(icon: Icon(Icons.report), label: "Laporan Kamu"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
         ],
         currentIndex: currentWidget,
         onTap: setWidget,

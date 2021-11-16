@@ -16,17 +16,21 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   Completer<GoogleMapController> _controller = Completer();
 
-// -7.140667232280621, 112.32340920475997
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(-7.121968, 112.4152449),
     zoom: 14.4746,
   );
 
   void setCurrentPosition(double lang, double lat) async {
-    CameraPosition _currentPosition =
-        CameraPosition(target: LatLng(lat, lang), zoom: 19.151926040649414);
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_currentPosition));
+    try {
+      CameraPosition _currentPosition =
+          CameraPosition(target: LatLng(lat, lang), zoom: 19.151926040649414);
+      final GoogleMapController controller = await _controller.future;
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(_currentPosition));
+    } catch (e) {
+      print(e);
+    }
   }
 
   void getAndSetPosition(BuildContext context) async {
@@ -71,8 +75,8 @@ class _MapWidgetState extends State<MapWidget> {
         myLocationButtonEnabled: false,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
           getAndSetPosition(context);
+          _controller.complete(controller);
         },
       ),
       floatingActionButton: Stack(
@@ -82,7 +86,7 @@ class _MapWidgetState extends State<MapWidget> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.extended(
-                heroTag: "insertBtn",
+                  heroTag: "insertBtn",
                   backgroundColor: Colors.red,
                   label: Text('Buat Laporan'),
                   onPressed: () async {
@@ -90,7 +94,7 @@ class _MapWidgetState extends State<MapWidget> {
                         await _determinePosition(context);
                     List<Placemark> placemarks = await placemarkFromCoordinates(
                         currentlocation.latitude, currentlocation.longitude);
-                        print(currentlocation);
+                    print(currentlocation);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -108,13 +112,14 @@ class _MapWidgetState extends State<MapWidget> {
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
-              heroTag: "getCurrentLocationBtn",
+                heroTag: "getCurrentLocationBtn",
                 backgroundColor: Colors.blue,
                 child: Icon(Icons.location_on),
                 onPressed: () {
                   getAndSetPosition(context);
                 }),
           ),
+
         ],
       ),
     );
