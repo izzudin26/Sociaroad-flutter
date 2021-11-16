@@ -1,8 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:society_road/navigation.dart';
 import 'package:society_road/registration.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:society_road/webservice/authService.dart';
+import 'package:society_road/widget/snackbarAlert.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -19,12 +21,25 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
-    Timer(Duration(milliseconds: 500), () {
-      setState(() {
-        isShowForm = true;
-      });
+    Future.delayed(Duration(milliseconds: 300)).then((_) {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        Navigator.pushReplacementNamed(context, '/navigation');
+      } else {
+        Timer(Duration(milliseconds: 500), () {
+          setState(() {
+            isShowForm = true;
+          });
+        });
+      }
     });
+  }
+  
+  @override
+  void dispose() {
+    super.dispose();
+    email.dispose();
+    password.dispose();
   }
 
   @override
@@ -97,7 +112,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               style: TextStyle(fontSize: 15),
                             ),
                             TextButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -108,11 +123,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           ],
                         ),
                         ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NavigationApp()));
+                            onPressed: () async {
+                              try {
+                                await AuthService.login(
+                                    email: email.text, password: password.text);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NavigationApp()));
+                              } catch (e) {
+                                showSnackbar(context, e.toString());
+                              }
                             },
                             child: SizedBox(
                               width: double.infinity,
