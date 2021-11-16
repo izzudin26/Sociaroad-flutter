@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951759134098",
+    "project_id": "soro-95df6",
+    "storage_bucket": "soro-95df6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951759134098:android:a6ce62f4a844a06fcdf54b",
+        "android_client_info": {
+          "package_name": "com.izzudin.societyroad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951759134098-4so5hhocgtmcuhhaouqbvjm65t0519l3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGtAyE1VYu35Hv02OHoz4ALg4MbV0REe8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951759134098-4so5hhocgtmcuhhaouqbvjm65t0519l3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
