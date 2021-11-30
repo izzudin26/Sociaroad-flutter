@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'login.dart';
+import 'package:society_road/webservice/authService.dart';
 
 class Registration extends StatefulWidget {
   Registration({Key? key}) : super(key: key);
@@ -11,7 +10,8 @@ class Registration extends StatefulWidget {
   _RegistrationState createState() => _RegistrationState();
 }
 
-class _RegistrationState extends State<Registration> with TickerProviderStateMixin {
+class _RegistrationState extends State<Registration>
+    with TickerProviderStateMixin {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -25,12 +25,30 @@ class _RegistrationState extends State<Registration> with TickerProviderStateMix
 
   @override
   void initState() {
-    // TODO: implement initState
     Timer(Duration(seconds: 1), () {
       setState(() {
         isShowForm = true;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    name.dispose();
+    email.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+    address.dispose();
+  }
+
+  void doRegistration() async {
+    try {
+      await AuthService.registration(name: name.text, email: email.text, address: address.text, password: password.text);
+      Navigator.pushReplacementNamed(context, "navigation");
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -93,7 +111,12 @@ class _RegistrationState extends State<Registration> with TickerProviderStateMix
                         obscureText: isShowPassword ? false : true,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.remove_red_eye, color: (isShowPassword ? Colors.blue : Colors.black26),),
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color: (isShowPassword
+                                    ? Colors.blue
+                                    : Colors.black26),
+                              ),
                               onPressed: () {
                                 setState(() {
                                   isShowPassword = !isShowPassword;
@@ -112,10 +135,16 @@ class _RegistrationState extends State<Registration> with TickerProviderStateMix
                         obscureText: isShowConfirmPassword ? false : true,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.remove_red_eye, color: (isShowConfirmPassword ? Colors.blue : Colors.black26),),
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color: (isShowConfirmPassword
+                                    ? Colors.blue
+                                    : Colors.black26),
+                              ),
                               onPressed: () {
                                 setState(() {
-                                  isShowConfirmPassword = !isShowConfirmPassword;
+                                  isShowConfirmPassword =
+                                      !isShowConfirmPassword;
                                 });
                               },
                             ),
@@ -145,7 +174,9 @@ class _RegistrationState extends State<Registration> with TickerProviderStateMix
                         ],
                       ),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            doRegistration();
+                          },
                           child: SizedBox(
                             width: double.infinity,
                             child: Center(child: Text("Registrasi")),

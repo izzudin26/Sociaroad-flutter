@@ -64,7 +64,8 @@ class _CreateReportState extends State<CreateReport> {
                       MaterialPageRoute(builder: (context) => ImageUploader()));
                 });
               },
-              child: Text("Laporkan", style: TextStyle(color: Colors.blue)))
+              child:
+                  Text("Upload Gambar", style: TextStyle(color: Colors.blue)))
         ],
         bottom: !isProcessing
             ? null
@@ -82,7 +83,6 @@ class _CreateReportState extends State<CreateReport> {
               children: [
                 TextField(
                   controller: address,
-                  readOnly: true,
                   decoration: InputDecoration(
                       label: Text("Alamat"),
                       border: OutlineInputBorder(
@@ -117,7 +117,6 @@ class _CreateReportState extends State<CreateReport> {
                   controller: description,
                   maxLines: 3,
                   minLines: 3,
-                  readOnly: true,
                   decoration: InputDecoration(
                       label: Text("Keterangan Tambahan"),
                       border: OutlineInputBorder(

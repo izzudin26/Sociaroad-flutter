@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:society_road/model/imagePickerModel.dart';
@@ -11,20 +13,24 @@ class ImageUploader extends StatefulWidget {
 
 class _ImageUploaderState extends State<ImageUploader> {
   late XFile image;
-  List<ImagePickerModel> images = [];
+
+  List<String> images = [];
   final ImagePicker _picker = ImagePicker();
 
   void pickImage(String type) async {
     try {
       XFile? img = await _picker.pickImage(
-          source: type == "gallery" ? ImageSource.gallery : ImageSource.camera);
+          source: ImageSource.gallery, maxHeight: 300, maxWidth: 300);
       if (img != null) {
         print(img.path);
         setState(() {
-          images.add(ImagePickerModel(locationPath: img.path));
+          images.add(img.path);
         });
+        print(images);
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   Widget showImages() {
@@ -34,7 +40,7 @@ class _ImageUploaderState extends State<ImageUploader> {
               .map((e) => Stack(
                     children: [
                       Container(
-                        child: Image.asset(e.locationPath),
+                        child: Image.file(File(e)),
                       )
                     ],
                   ))
@@ -63,16 +69,6 @@ class _ImageUploaderState extends State<ImageUploader> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                        child: Container(
-                            height: MediaQuery.of(context).size.height * .15,
-                            child: InkWell(
-                              onTap: () {
-                                pickImage("camera");
-                              },
-                              child: Icon(Icons.camera_alt_rounded,
-                                  color: Colors.blue),
-                            ))),
                     Expanded(
                         child: Container(
                             height: MediaQuery.of(context).size.height * .15,
