@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:society_road/widget/imageUploader.dart';
+import 'package:society_road/webservice/reportService.dart';
 
 class CreateReport extends StatefulWidget {
   String address;
@@ -57,11 +58,22 @@ class _CreateReportState extends State<CreateReport> {
         automaticallyImplyLeading: false,
         actions: [
           TextButton(
-              onPressed: () {
+              onPressed: () async {
+                int store = await ReportService.createReport(
+                    lang: lang.text,
+                    lat: lat.text,
+                    city: city.text,
+                    province: province.text,
+                    address: address.text,
+                    description: description.text);
                 setState(() {
                   isProcessing = !isProcessing;
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ImageUploader()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ImageUploader(
+                                reportId: store,
+                              )));
                 });
               },
               child:
