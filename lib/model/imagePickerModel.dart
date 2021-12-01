@@ -7,6 +7,6 @@ class ImagePickerModel {
   Map<String, dynamic> toJson() => {"id": id, "locationPath": locationPath};
 
   ImagePickerModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        locationPath = json['locationPath'];
+      : id = json['fileId'],
+        locationPath = json['fileName'];
 }
