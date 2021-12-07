@@ -29,5 +29,5 @@ class ReportModel {
         reportId = json['reportId'],
         lat = json['lat'],
         lang = json['lang'],
-        username = json['username'];
+        username = json['user'];
 }
