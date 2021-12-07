@@ -4,6 +4,7 @@ import 'package:http/http.dart' as Http;
 import './url.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:society_road/model/imagePickerModel.dart';
+import 'package:society_road/model/reportModel.dart';
 
 class ReportService {
   static Future<int> createReport(
@@ -63,6 +64,22 @@ class ReportService {
     if (req.statusCode != 200) {
       Map<String, dynamic> res = jsonDecode(req.body);
       throw res['message'];
+    }
+  }
+
+  static Future<List<ReportModel>> getCollectionReport(
+      {required String city, required int page}) async {
+    String user = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      final req = await Http.get(
+          Uri.parse('$serverUrl/report?page=$page&city=$city'),
+          headers: {'Authorization': user});
+      Map<String, dynamic> body = jsonDecode(req.body);
+      List<ReportModel> data =
+          (body['data'] as List).map((e) => ReportModel.fromJson(e)).toList();
+      return data;
+    } catch (e) {
+      throw e;
     }
   }
 }
