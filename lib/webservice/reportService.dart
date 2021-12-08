@@ -82,4 +82,19 @@ class ReportService {
       throw e;
     }
   }
+
+  static Future<List<ReportModel>> getPersonReport() async {
+    String user = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      final req = await Http.get(
+          Uri.parse('$serverUrl/report/collection/user'),
+          headers: {'Authorization': user});
+      Map<String, dynamic> body = jsonDecode(req.body);
+      List<ReportModel> data =
+          (body['data'] as List).map((e) => ReportModel.fromJson(e)).toList();
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
