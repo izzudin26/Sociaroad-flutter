@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:society_road/model/reportModel.dart';
 import 'package:society_road/webservice/reportService.dart';
+import 'package:society_road/widget/snackbarAlert.dart';
 
 class ReportWidget extends StatefulWidget {
   ReportWidget({Key? key}) : super(key: key);
@@ -11,10 +12,10 @@ class ReportWidget extends StatefulWidget {
 
 class _ReportWidgetState extends State<ReportWidget> {
   List<ReportModel> data = [];
+  bool isProcessing = true;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     doFetchData();
   }
@@ -24,6 +25,7 @@ class _ReportWidgetState extends State<ReportWidget> {
       List<ReportModel> resultFetch = await ReportService.getPersonReport();
       setState(() {
         data = resultFetch;
+        isProcessing = false;
       });
       print(resultFetch);
     } catch (e) {
@@ -31,11 +33,29 @@ class _ReportWidgetState extends State<ReportWidget> {
     }
   }
 
+  void removeReport(ReportModel r) async {
+    int index = data.indexOf(r);
+    setState(() {
+      isProcessing = true;
+    });
+    try {
+      await ReportService.removeReport(reportId: r.reportId);
+      setState(() {
+        data.removeAt(index);
+        isProcessing = false;
+      });
+      showSnackbar(context, "Berhasil Menghapus Laporan");
+    } catch (e) {
+      print(e);
+      showSnackbar(context, "Terjadi Kesalahan");
+    }
+  }
+
   Widget DataReport() {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: data
-          .map((e) => (Container(
+          .map((r) => (Container(
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -55,9 +75,17 @@ class _ReportWidgetState extends State<ReportWidget> {
                   ],
                 ),
                 child: ListTile(
-                  title: Text(e.address),
-                  subtitle: Text('${e.city} - ${e.province}'),
-                  trailing: Icon(Icons.location_on),
+                  title: Text(r.address),
+                  subtitle: Text('${r.city} - ${r.province}'),
+                  leading: Icon(Icons.location_on),
+                  trailing: IconButton(
+                      onPressed: () {
+                        removeReport(r);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      )),
                 ),
               )))
           .toList(),
@@ -70,6 +98,11 @@ class _ReportWidgetState extends State<ReportWidget> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text("Laporan Anda"),
+          bottom: !isProcessing
+              ? null
+              : PreferredSize(
+                  child: LinearProgressIndicator(),
+                  preferredSize: Size.fromHeight(.5)),
         ),
         body: Container(
           padding: EdgeInsets.all(20),

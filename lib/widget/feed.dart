@@ -12,6 +12,7 @@ class FeedWidget extends StatefulWidget {
 
 class _FeedWidgetState extends State<FeedWidget> {
   List<ReportModel> data = [];
+  bool isProcessing = true;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _FeedWidgetState extends State<FeedWidget> {
           city: "Kabupaten Lamongan", page: 1);
       setState(() {
         data = resultFetch;
+        isProcessing = false;
       });
       print(resultFetch);
     } catch (e) {
@@ -69,16 +71,20 @@ class _FeedWidgetState extends State<FeedWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Jalan Rusak"),
-      ),
-      body:  Container(
-      padding: EdgeInsets.all(20),
-      child: ListView(
-        children: [data.length > 0 ? DataReport() : SizedBox()],
-      ),
-    )
-    );
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text("Jalan Rusak Terdekat"),
+          bottom: !isProcessing
+              ? null
+              : PreferredSize(
+                  child: LinearProgressIndicator(),
+                  preferredSize: Size.fromHeight(.5)),
+        ),
+        body: Container(
+          padding: EdgeInsets.all(20),
+          child: ListView(
+            children: [data.length > 0 ? DataReport() : SizedBox()],
+          ),
+        ));
   }
 }
