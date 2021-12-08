@@ -86,13 +86,26 @@ class ReportService {
   static Future<List<ReportModel>> getPersonReport() async {
     String user = FirebaseAuth.instance.currentUser!.uid;
     try {
-      final req = await Http.get(
-          Uri.parse('$serverUrl/report/collection/user'),
+      final req = await Http.get(Uri.parse('$serverUrl/report/collection/user'),
           headers: {'Authorization': user});
       Map<String, dynamic> body = jsonDecode(req.body);
       List<ReportModel> data =
           (body['data'] as List).map((e) => ReportModel.fromJson(e)).toList();
       return data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<void> removeReport({required int reportId}) async {
+    String user = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      final req = await Http.delete(Uri.parse('$serverUrl/report/$reportId'),
+          headers: {'Authorization': user});
+      if (req.statusCode != 200) {
+        Map<String, dynamic> body = jsonDecode(req.body);
+        throw body['message'];
+      }
     } catch (e) {
       throw e;
     }
