@@ -36,7 +36,7 @@ class _NavigationAppState extends State<NavigationApp> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.add_road), label: "Feed"),
-          BottomNavigationBarItem(icon: Icon(Icons.report), label: "Laporan Kamu"),
+          BottomNavigationBarItem(icon: Icon(Icons.report), label: "Laporan Anda"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil"),
         ],
         currentIndex: currentWidget,
