@@ -62,8 +62,6 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   void doFetchData() async {
     try {
-      String city = await getCity();
-      print(city);
       List<ReportModel> resultFetch = await ReportService.getCollectionReport(
           city: "Kabupaten Lamongan", page: 1);
       setState(() {

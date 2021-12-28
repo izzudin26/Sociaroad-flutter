@@ -74,6 +74,7 @@ class ReportService {
       final req = await Http.get(
           Uri.parse('$serverUrl/report?page=$page&city=$city'),
           headers: {'Authorization': user});
+          print(req.statusCode);
       Map<String, dynamic> body = jsonDecode(req.body);
       List<ReportModel> data =
           (body['data'] as List).map((e) => ReportModel.fromJson(e)).toList();
@@ -86,8 +87,10 @@ class ReportService {
   static Future<List<ReportModel>> getPersonReport() async {
     String user = FirebaseAuth.instance.currentUser!.uid;
     try {
+      print(serverUrl);
       final req = await Http.get(Uri.parse('$serverUrl/report/collection/user'),
           headers: {'Authorization': user});
+          print(req.body);
       Map<String, dynamic> body = jsonDecode(req.body);
       List<ReportModel> data =
           (body['data'] as List).map((e) => ReportModel.fromJson(e)).toList();
