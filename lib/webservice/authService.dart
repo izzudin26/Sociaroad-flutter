@@ -14,14 +14,18 @@ class AuthService {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+          print(userCredential.user!.uid);
       Map<String, dynamic> body = {
         'name': name,
         'email': email,
         'address': address
       };
-      final res = await http.post(url, body: body, headers: {
+      print(jsonEncode(body));
+      final res = await http.post(url, body: jsonEncode(body), headers: {
         'authorization': userCredential.user!.uid,
+        "content-type": "application/json"
       });
+      print(res.body);
       if (res.statusCode != 200) {
         throw jsonDecode(res.body)['message'];
       }
