@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:society_road/model/reportModel.dart';
 import 'package:society_road/webservice/reportService.dart';
 import 'package:society_road/widget/snackbarAlert.dart';
+import 'package:lottie/lottie.dart';
 
 class ReportWidget extends StatefulWidget {
   ReportWidget({Key? key}) : super(key: key);
@@ -106,9 +107,11 @@ class _ReportWidgetState extends State<ReportWidget> {
         ),
         body: Container(
           padding: EdgeInsets.all(20),
-          child: ListView(
-            children: [data.length > 0 ? DataReport() : SizedBox()],
-          ),
+          child: data.length > 0 ? ListView(
+            children: [ DataReport() ],
+          ) : Center(
+              child: Lottie.asset('assets/nodata.json'),
+            ),
         ));
   }
 }

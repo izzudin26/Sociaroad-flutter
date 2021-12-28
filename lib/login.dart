@@ -5,6 +5,7 @@ import 'package:society_road/registration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:society_road/webservice/authService.dart';
 import 'package:society_road/widget/snackbarAlert.dart';
+import 'package:lottie/lottie.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                 width:
                     MediaQuery.of(context).size.width * (isShowForm ? .5 : .7),
                 duration: Duration(milliseconds: 1000),
-                child: Image.asset("assets/lamonganmegilan.png"),
+                child: Lottie.asset('assets/login.json'),
               ),
               AnimatedSize(
                 vsync: this,

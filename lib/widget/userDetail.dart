@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class UserDetail extends StatefulWidget {
   const UserDetail({Key? key}) : super(key: key);
@@ -29,10 +30,7 @@ class _UserDetailState extends State<UserDetail> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/lamonganmegilan.png',
-              height: MediaQuery.of(context).size.height * .2,
-            ),
+            Lottie.asset('assets/account.json'),
             Padding(
               padding: EdgeInsets.only(top: 20),
               child: TextField(
@@ -49,9 +47,7 @@ class _UserDetailState extends State<UserDetail> {
             Padding(
               padding: EdgeInsets.only(top: 20),
               child: ElevatedButton(
-                style:  ElevatedButton.styleFrom(
-                  primary: Colors.red
-                ),
+                  style: ElevatedButton.styleFrom(primary: Colors.red),
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.pushReplacementNamed(context, "/login");

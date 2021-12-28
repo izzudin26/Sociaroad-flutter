@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:society_road/widget/snackbarAlert.dart';
 import 'login.dart';
 import 'package:society_road/webservice/authService.dart';
+import 'package:lottie/lottie.dart';
 
 class Registration extends StatefulWidget {
   Registration({Key? key}) : super(key: key);
@@ -45,9 +47,10 @@ class _RegistrationState extends State<Registration>
   void doRegistration() async {
     try {
       await AuthService.registration(name: name.text, email: email.text, address: address.text, password: password.text);
-      Navigator.pushReplacementNamed(context, "navigation");
+      Navigator.pushReplacementNamed(context, "/navigation");
     } catch (e) {
       print(e);
+      showSnackbar(context, e.toString());
     }
   }
 
@@ -63,7 +66,7 @@ class _RegistrationState extends State<Registration>
             AnimatedContainer(
               width: MediaQuery.of(context).size.width * (isShowForm ? .5 : .7),
               duration: Duration(milliseconds: 1000),
-              child: Image.asset("assets/lamonganmegilan.png"),
+              child: Lottie.asset('assets/register.json')
             ),
             AnimatedSize(
               vsync: this,
